@@ -15,17 +15,37 @@
         const urlAppsScript = "https://script.google.com/macros/s/AKfycbyA-tF7J3RJrlyn7GMVLBvOLSX7fK9eqzq-n7C2Jghb-4_8Aj45WvWi6UpwNDlijwSSRw/exec";
 
         document.getElementById('tombolData').addEventListener('click', () => {
-            document.getElementById('hasil').innerText = "Menunggu data...";
+            // Kita gunakan innerHTML agar bisa memuat elemen HTML
+            document.getElementById('hasil').innerHTML = "<i>Menunggu data dari Google Sheets...</i>";
 
-            // Menggunakan fetch untuk memanggil URL Apps Script
             fetch(urlAppsScript)
-                .then(response => response.json()) // Mengubah respons menjadi JSON
+                .then(response => response.json())
                 .then(data => {
-                    // Menampilkan data di HTML
-                    document.getElementById('hasil').innerText = data.pesan;
+                    // Membuat kerangka tabel HTML
+                    let tabelHTML = "<table border='1' style='border-collapse: collapse; margin-top: 15px;'>";
+                    
+                    // Membaca setiap baris data dari Google Sheets
+                    data.forEach((baris, index) => {
+                        tabelHTML += "<tr>";
+                        // Membaca setiap sel di dalam baris tersebut
+                        baris.forEach(sel => {
+                            if (index === 0) {
+                                // Baris pertama dijadikan tajuk tebal (header)
+                                tabelHTML += "<th style='padding: 8px; background-color: #f2f2f2;'>" + sel + "</th>";
+                            } else {
+                                // Baris selanjutnya adalah data biasa
+                                tabelHTML += "<td style='padding: 8px;'>" + sel + "</td>";
+                            }
+                        });
+                        tabelHTML += "</tr>";
+                    });
+                    tabelHTML += "</table>";
+
+                    // Menampilkan tabel utuh ke layar
+                    document.getElementById('hasil').innerHTML = tabelHTML;
                 })
                 .catch(error => {
-                    document.getElementById('hasil').innerText = "Gagal mengambil data.";
+                    document.getElementById('hasil').innerHTML = "<b>Gagal mengambil data.</b>";
                     console.error(error);
                 });
         });
