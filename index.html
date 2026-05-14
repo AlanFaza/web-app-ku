@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi Saya</title>
+</head>
+<body>
+    <h1>Halo dari GitHub Pages!</h1>
+    <button id="tombolData">Ambil Data dari Apps Script</button>
+    <p id="hasil"></p>
+
+    <script>
+        // Nanti kita akan meletakkan URL Apps Script di sini
+        const urlAppsScript = "URL_APPS_SCRIPT_ANDA_NANTI";
+
+        document.getElementById('tombolData').addEventListener('click', () => {
+            document.getElementById('hasil').innerText = "Menunggu data...";
+            // Logika fetch akan ditulis di sini
+        });
+    </script>
+</body>
+</html>
